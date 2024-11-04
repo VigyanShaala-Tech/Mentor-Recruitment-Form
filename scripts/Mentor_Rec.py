@@ -137,7 +137,7 @@ else:
 
    
 #uploaded_file = st.file_uploader("Upload a file", type=["csv", "txt"])
-uploaded_file2 = st.file_uploader(" Please upload your bio and a professional headshot", accept_multiple_files=False, type=["pdf", "txt","png","jpg"])
+uploaded_file2 = st.file_uploader(" Please upload your bio and a professional headshot", accept_multiple_files=False, type=["pdf", "txt","png","jpg","jpeg"])
 if uploaded_file2 is not None:
     # Define the folder name and S3 file path
     folder_name = "Bio and a professional headshot"
@@ -158,7 +158,7 @@ if uploaded_file2 is not None:
     else:
         st.error("Failed to upload sample work to S3. Please try again.")
 else:
-    st.warning("No file uploaded for sample work.")
+    file_url_2 = "Not uploaded"
 
 
 if not Name or not Email_id or not Number or not Institute or not Degree or not Country or not Current_city or not selected_options or not comments_a or not option2 or not option_B or not uploaded_file1:
@@ -166,7 +166,7 @@ if not Name or not Email_id or not Number or not Institute or not Degree or not 
     st.stop()
 
 
-def create_feedback_dataframe(primary_key, Name, Email_id, Number, Profile, Institute, Current_job, Degree, Country, Current_city, selected_options, comments_a,option2,option_B,uploaded_file1,uploaded_file2):
+def create_feedback_dataframe(primary_key, Name, Email_id, Number, Profile, Institute, Current_job, Degree, Country, Current_city, selected_options, comments_a,option2,option_B,file_url_1,file_url_2):
     data = {
         'ID': primary_key,
         'Enter your full name *': Name,
@@ -195,7 +195,7 @@ def create_feedback_dataframe(primary_key, Name, Email_id, Number, Profile, Inst
 combined_button_text = "Submit"   
 
 if st.button(combined_button_text):
-    feedback_df = create_feedback_dataframe(primary_key, Name, Email_id, Number, Profile, Institute, Current_job, Degree, Country, Current_city, selected_options, comments_a,option2,option_B,uploaded_file1,uploaded_file2)
+    feedback_df = create_feedback_dataframe(primary_key, Name, Email_id, Number, Profile, Institute, Current_job, Degree, Country, Current_city, selected_options, comments_a,option2,option_B,file_url_1,file_url_2)
 
     # Prepare the JSON data
     json_data = feedback_df[[ 'Enter your full name *', 'Enter your email address *',"Enter your WhatsApp number (with country code, DONOT ADD '+') *", 'Enter your LinkedIn profile link here', 'Enter your current Institute/University/Organization *','Current Job title/Designation','Highest degree obtained *','Country you currently reside in *','Your current city *','What communication languages are you comfortable in?  *',"How would you like to join VigyanShaala's #SheforSTEM movement?",'How many years have you worked as a STEM professional? *','Would you like to schedule a 10-15 minute call with us for unde','Upload your Curriculum Vitae/Resume *','Please upload your bio and a professional headshot','ID']].to_dict(orient='records')[0]
