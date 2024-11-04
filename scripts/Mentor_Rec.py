@@ -19,6 +19,7 @@ import json
 import numpy as np
 import boto3
 from botocore.exceptions import NoCredentialsError
+import urllib.parse
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -113,20 +114,47 @@ option_B = st.radio(" Would you like to schedule a 10-15 minute call with us for
 #uploaded_file = st.file_uploader("Upload a file", type=["csv", "txt"])
 uploaded_file1 = st.file_uploader(" Upload your Curriculum Vitae/Resume*", accept_multiple_files=False, type=["pdf", "txt"])
 if uploaded_file1 is not None:  
-    s3_file_name = f"Curriculum Vitae/Resume/{Name}_{uploaded_file1.name}" 
+    # Define the folder name and S3 file path
+    folder_name = "cv_resume"
+    s3_file_name = f"{folder_name}/{uploaded_file1.name}"
+    s3_bucket_name = "vigyan-dev-mentor"  # replace with your actual bucket name
+
+    # Upload file to S3
     if upload_to_s3(uploaded_file1, s3_bucket_name, s3_file_name):
-        st.success(f"Curriculum Vitae/Resume uploaded successfully.")
+        st.success("Curriculum Vitae/Resume uploaded successfully.")
+
+        # Encode the file name in the URL to handle spaces and other special characters
+        encoded_file_name = urllib.parse.quote(uploaded_file1.name)
+        encoded_folder_name = urllib.parse.quote(folder_name)
+        
+        # Construct the URL to the uploaded file
+        file_url_1 = f"https://{s3_bucket_name}.s3.ap-south-1.amazonaws.com/{encoded_folder_name}/{encoded_file_name}"
+        st.write(f"[Access your uploaded file]({file_url_1})")
     else:
         st.error("Failed to upload sample work to S3. Please try again.")
 else:
     st.warning("No file uploaded for sample work.")
+
    
 #uploaded_file = st.file_uploader("Upload a file", type=["csv", "txt"])
 uploaded_file2 = st.file_uploader(" Please upload your bio and a professional headshot", accept_multiple_files=False, type=["pdf", "txt","png","jpg"])
-if uploaded_file2 is not None:  
-    s3_file_name = f"Bio and a professional headshot/{Name}_{uploaded_file2.name}" 
+if uploaded_file2 is not None:
+    # Define the folder name and S3 file path
+    folder_name = "Bio and a professional headshot"
+    s3_file_name = f"{folder_name}/{uploaded_file2.name}"
+    s3_bucket_name = "vigyan-dev-mentor"  # replace with your actual bucket name
+
+    # Upload file to S3
     if upload_to_s3(uploaded_file2, s3_bucket_name, s3_file_name):
-        st.success(f"Bio and a professional headshot uploaded successfully.")
+        st.success("Bio and a professional headshot uploaded successfully.")
+
+        # Encode the file name in the URL to handle spaces and other special characters
+        encoded_file_name = urllib.parse.quote(uploaded_file2.name)
+        encoded_folder_name = urllib.parse.quote(folder_name)
+        
+        # Construct the URL to the uploaded file
+        file_url_2 = f"https://{s3_bucket_name}.s3.ap-south-1.amazonaws.com/{encoded_folder_name}/{encoded_file_name}"
+        st.write(f"[Access your uploaded file]({file_url_2})")
     else:
         st.error("Failed to upload sample work to S3. Please try again.")
 else:
@@ -155,8 +183,8 @@ def create_feedback_dataframe(primary_key, Name, Email_id, Number, Profile, Inst
         'How many years have you worked as a STEM professional? *': option2,
         #'Do you have any preferred days and times for these sessions? Pl': session_times,
         'Would you like to schedule a 10-15 minute call with us for unde': option_B,
-        'Upload your Curriculum Vitae/Resume *': uploaded_file1.name if uploaded_file1 else None,  # Add file name or None if no file
-        'Please upload your bio and a professional headshot': uploaded_file2.name if uploaded_file2 else None  # Same for second file
+        'Upload your Curriculum Vitae/Resume *': file_url_1,  # Add file name or None if no file
+        'Please upload your bio and a professional headshot': file_url_2  # Same for second file
     }
 
     feedback_df = pd.DataFrame([data])
