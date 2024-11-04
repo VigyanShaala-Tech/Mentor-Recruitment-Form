@@ -117,7 +117,7 @@ if uploaded_file1 is not None:
     # Define the folder name and S3 file path
     folder_name = "cv_resume"
     s3_file_name = f"{folder_name}/{uploaded_file1.name}"
-    s3_bucket_name = "vigyan-dev-mentor"  # replace with your actual bucket name
+    s3_bucket_name = s3_bucket_name  # replace with your actual bucket name
 
     # Upload file to S3
     if upload_to_s3(uploaded_file1, s3_bucket_name, s3_file_name):
@@ -142,7 +142,7 @@ if uploaded_file2 is not None:
     # Define the folder name and S3 file path
     folder_name = "Bio and a professional headshot"
     s3_file_name = f"{folder_name}/{uploaded_file2.name}"
-    s3_bucket_name = "vigyan-dev-mentor"  # replace with your actual bucket name
+    s3_bucket_name = s3_bucket_name  # replace with your actual bucket name
 
     # Upload file to S3
     if upload_to_s3(uploaded_file2, s3_bucket_name, s3_file_name):
