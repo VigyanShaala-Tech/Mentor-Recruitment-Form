@@ -67,12 +67,15 @@ st.markdown(
 )
 
 st.markdown(
-    "<h1 style='color: black; font-weight: bold;'>Kalpana - She for STEM Role Model and Mentor Recruitment Form</h1>", 
+    "<div style='text-align: center;margin-bottom: 30px;'>"
+    "<span style='font-size: 34px; font-weight: bold;'>Join 'She for STEM' Movement</span><br>"
+    "<span style='font-size: 22px;font-weight: bold;'>Sign up to shape the future of next generation in STEM</span>"
+    "</div>", 
     unsafe_allow_html=True
 )
 
 Name=st.text_input("Enter your full name*")
-Email_id=st.text_input("Enter your email address*")
+Email_id=st.text_input("Enter your email address (Work/Personal)*")
 Number=st.text_input("Enter your WhatsApp number (with country code, DONOT ADD '+')*")
 Profile=st.text_input("Enter your LinkedIn profile link here")
 Institute=st.text_input("Enter your current Institute/University/Organization*")
