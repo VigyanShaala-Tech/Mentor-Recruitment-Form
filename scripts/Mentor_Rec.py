@@ -60,7 +60,7 @@ def get_timestamp():
     return datetime.now()
 
 # Display the PNG image in the top left corner of the Streamlit sidebar with custom dimensions
-image_path = 'https://twetkfnfqdtsozephdse.supabase.co/storage/v1/object/sign/stemcheck/VS-logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJzdGVtY2hlY2svVlMtbG9nby5wbmciLCJpYXQiOjE3MjE5NzA3ODUsImV4cCI6MTc1MzUwNjc4NX0.purLZOGk272W80A4OlvnavqVB9u-yExhzpmI3dZrjdM&t=2024-07-26T05%3A13%3A02.704Z'
+image_path = "https://raw.githubusercontent.com/VigyanShaala-Tech/Mentor-Recruitment-Form/main/image/VS-logo.png"
 st.markdown(
     f'<div style="text-align:center"><img src="{image_path}" width="150"></div>',
     unsafe_allow_html=True
@@ -214,13 +214,13 @@ if st.button(combined_button_text):
 
 
     # Create the connection string
-    engine_str = f"mysql+mysqlconnector://{DB_USERNAME}:{DB_PASSWORD}@{DB_ENDPOINT}:{DB_PORT}/{DB_NAME}"
+    engine_str = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_ENDPOINT}:{DB_PORT}/{DB_NAME}"
 
     # Create the SQLAlchemy engine
     engine = create_engine(engine_str)
     
 
     # Store the DataFrame in the database table
-    table_name = 'Mentor_Recruitment'  # Replace with your table name
+    table_name = 'Mentor'  # Replace with your table name
     feedback_df.to_sql(table_name, con=engine, if_exists='append', index=False)
     st.success('Thankyou for your response.')
