@@ -205,22 +205,22 @@ if st.button(combined_button_text):
     feedback_df = feedback_df.applymap(lambda x: ', '.join(x) if isinstance(x, list) else x)
 
     # AWS RDS database connection info
-    DB_USERNAME=os.getenv('DB_USERNAME')
+    DB_USER=os.getenv('DB_USER')
     DB_PASSWORD=os.getenv('DB_PASSWORD')
     DB_NAME=os.getenv('DB_NAME')
     DB_PORT=os.getenv('DB_PORT')
-    DB_ENDPOINT=os.getenv('DB_ENDPOINT')
+    DB_HOST=os.getenv('DB_HOST')
 
 
 
     # Create the connection string
-    engine_str = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_ENDPOINT}:{DB_PORT}/{DB_NAME}"
+    engine_str = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
     # Create the SQLAlchemy engine
     engine = create_engine(engine_str)
     
 
     # Store the DataFrame in the database table
-    table_name = 'Mentor'  # Replace with your table name
-    feedback_df.to_sql(table_name, con=engine, if_exists='append', index=False)
+    table_name = 'mentor_recruitment_sheet'  # Replace with your table name
+    feedback_df.to_sql(table_name, con=engine, if_exists='append', schema='raw',  index=False)
     st.success('Thankyou for your response.')
